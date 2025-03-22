@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buyurtma Muvaffaqiyatli</title>
+</head>
+<body>
+    {% if messages %}
+        <div class="alert-messages">
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <h2>Buyurtma muvaffaqiyatli bajarildi!</h2>
+    <a href="/">Bosh sahifaga qaytish</a>
+</body>
+</html>

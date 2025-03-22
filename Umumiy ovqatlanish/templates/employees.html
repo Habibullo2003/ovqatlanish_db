@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Xodimlar{% endblock %}
+
+{% block page_title %}Xodimlar boshqaruvi{% endblock %}
+
+{% block content %}
+<main class="container mt-4">
+    <h2 class="text-center text-white">Xodimlar Ro‘yxati</h2>
+    <p class="text-center">Quyidagi jadvalda restoran xodimlarini boshqaring.</p>
+    <table class="table table-striped table-hover mt-3">
+        <thead class="table-dark">
+            <tr>
+                <th>Ism</th>
+                <th>Familiya</th>
+                <th>Lavozim</th>
+                <th>Ish vaqti</th>
+                <th>Ishlaydigan restorani</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for employee in employees %}
+            <tr>
+                <td>{{ employee.ism }}</td>
+                <td>{{ employee.familiya}}</td>
+                <td>{{ employee.lavozim }}</td>
+                <td>{{ employee.ish_vaqti }}</td>
+                <td>{{ employee.restoran }}</td>
+            </tr>
+            {% endfor %}
+            </tr>
+        </tbody>
+    </table>
+</main>
+{% endblock %}

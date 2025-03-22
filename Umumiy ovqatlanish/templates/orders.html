@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Buyurtmalar{% endblock %}
+
+{% block page_title %}Buyurtmalarni boshqarish{% endblock %}
+
+{% block content %}
+<script src="{% static 'js/order.js' %}"></script>
+<main>
+    <h2>Buyurtma berish</h2>
+    <!-- Xabarlarni chiqarish -->
+    {% if messages %}
+    <div class="alert-messages">
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- Buyurtma formasi -->
+    <form method="POST" id="order-form" class="text-white">
+        {% csrf_token %}
+
+        <div class="form-group">
+            <label>Mijoz:</label>
+            {{ form.mijoz }}
+        </div>
+
+        <div class="form-group">
+            <label>Restoran:</label>
+            {{ form.restoran }}
+        </div>
+
+        <!-- Taomlar tartibli ko‘rinishda -->
+        <div class="form-group">
+            <label>Tanlangan taomlar:</label>
+            <div class="taomlar-container">
+                {% for checkbox in form.taomlar %}
+                    <div class="taom-item">
+                        {{ checkbox.tag }}
+                        <label>{{ checkbox.choice_label }}</label>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Miqdor:</label>
+            {{ form.miqdor }}
+        </div>
+
+        <div class="form-group">
+            <label>Manzil:</label>
+            {{ form.manzil }}
+        </div>
+
+        <button type="submit" class="btn btn-primary">Buyurtma berish</button>
+    </form>
+</main>
+
+{% endblock %}

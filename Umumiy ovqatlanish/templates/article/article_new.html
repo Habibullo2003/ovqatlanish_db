@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1 class="tex-success">Yangi maqola qo'shish</h1>
+<form method="post"> {% csrf_token %}
+    <button class="btn btn-primary ml-2" type="submit">Saqlash</button>
+</form>
+{% endblock %}

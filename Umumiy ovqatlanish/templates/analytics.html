@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Tahlil{% endblock %}
+
+{% block page_title %}<h2 class="text-white">Tahlil va Hisobotlar</h2>{% endblock %}
+{% block content %}
+
+<main class="container mt-4">
+    <h2 class="text-center text-white">Biznes Tahlili</h2>
+    <p class="text-center text-white">Restoran biznesingizga oid statistik ma'lumotlarni ko'rishingiz mumkin.</p>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card p-4 shadow-lg text-center">
+                <h3>Eng Ko‘p Buyurtma Qilingan Taomlar</h3>
+                <ul>
+                {% for top_food in top_dishes %}
+                    <li class="text-dark">{{ top_food.nomi }} - {{ top_food.total_orders }} ta buyurtma</li>
+                {% endfor %}
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card p-4 shadow-lg text-center">
+                <h3>Oylik Daromad</h3>
+                <ul>
+                {% for income in monthly_income %}
+                    <li class="text-dark">Oy: {{ income.month_name }} - {{ income.total }} so‘m daromad</li>
+                {% endfor %}
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-12 mt-4">
+            <div class="card p-4 shadow-lg text-center">
+                <h3>Mijozlar Faolligi</h3>
+                <ul>
+                    {% for customer in top_customers %}
+                        <li class="text-dark">{{ customer.mijoz__username }} - {{ customer.order_count }} ta buyurtma</li>
+                    {% empty %}
+                        <li>Hozircha hech qanday ma'lumot yo‘q.</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}

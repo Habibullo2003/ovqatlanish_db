@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Menu{% endblock %}
+
+{% block page_title %}Bizning taomlar menyusi{% endblock %}
+
+{% block content %}
+<main class="container mt-4">
+    <h2 class="text-center">Menyu</h2>
+    <div class="row mt-3">
+        {% for food in foods %}
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <img src="{{ food.image.url }}" class="card-img-top img-fluid" alt="{{ food.nomi }}"
+                     style="width: 100%; height: 200px; object-fit: cover;">
+                <div class="card-body text-center">
+                    <p class="card-text" style="color: black">{{ food.nomi }} - {{ food.narx }} so'm</p>
+                    <button class="btn btn-primary details-btn"
+                            data-title="{{ food.nomi }}"
+                            data-image="{{ food.image.url }}"
+                            data-description="{{ food.tavsif }}">
+                        Batafsil
+                    </button>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</main>
+
+{% endblock %}

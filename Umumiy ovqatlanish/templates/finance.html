@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Hisobotlar{% endblock %}
+
+{% block page_title %}Hisobotlar{% endblock %}
+
+{% block content %}
+<main class="container mt-3">
+    <h2 class="text-center text-white">Mahsulot Sertifikatlari</h2>
+    <div id="certificates" class="row d-flex justify-content-center gap-3">
+        {% for sertifikat in sertifikatlar %}
+        <div class="col-md-3">
+            <div class="card text-center p-3">
+                <h3 class="text-primary">{{sertifikat.mahsulot_nomi}}</h3>
+                <p class="text-center text-dark">{{sertifikat.tasdiqlovchi_organ}}</p>
+                <p class="text-center text-dark">{{sertifikat.berilgan_sana}}</p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <h2 class="text-center text-white mt-5">Ovqatlar Monitoringi</h2>
+    <table class="table table-striped table-hover mt-3 bg-white text-dark">
+        <thead class="table-dark">
+            <tr>
+                <th>Taom nomi</th>
+                <th>Sotilgan miqdor</th>
+                <th>Sertifikat</th>
+                <th>Oxirgi yangilanish</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for ovqat_monitoringi, top_food in combined_data %}
+                <tr>
+                    <td>{{ ovqat_monitoringi.taom.nomi }}</td>
+                    <td>{{ top_food.total_orders }}</td>
+                    <td>{{ ovqat_monitoringi.sertifikat.tasdiqlovchi_organ }}</td>
+                    <td>{{ ovqat_monitoringi.oxirgi_yangilanish }}</td>
+                </tr>
+            {% endfor %}
+
+        </tbody>
+    </table>
+</main>
+{% endblock %}

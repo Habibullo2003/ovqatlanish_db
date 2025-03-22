@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Home{% endblock %}
+{% block content %}
+<main>
+    <h2>Xush kelibsiz!</h2>
+    <p>Bizning umumiy ovqatlanish tarmog'imizga xush kelibsiz. Eng yaxshi taomlarni tatib ko'ring!</p> <br>
+    <section>
+        <h3>Bugungi Maxsus Taomlar</h3>
+        <div class="row mt-3">
+            {% for food in foods %}
+            {% if food.nomi == "Osh" or food.nomi == "Shashlik" %}
+            <div class="col-md-6">
+                <div class="card shadow-sm">
+                    <img src="{{ food.image.url }}" alt="{{ food.nomi }}">
+                    <div class="card-body">
+                        <p style="color: black">{{ food.nomi }} - {{ food.narx }} so'm</p>
+                        <button class="btn btn-primary details-btn">
+                            {{ food.tavsif }}
+                        </button>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+    </section>
+</main>
+{% endblock %}

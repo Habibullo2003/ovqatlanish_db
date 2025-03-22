@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Restoranlar{% endblock %}
+
+{% block page_title %}Restoranlar{% endblock %}
+
+{% block content %}
+<main class="container mt-4">
+    <h2 class="text-center text-white">Restoranlar Ro‘yxati</h2>
+    <p class="text-center">Quyidagi ro‘yxatda restoranlaringizni boshqaring va kuzatib boring.</p>
+
+    <table class="table table-striped table-bordered mt-2 text-center">
+        <thead class="thead-dark">
+            <tr>
+                <th>Nomi</th>
+                <th>Rasm</th>
+                <th>Manzil</th>
+                <th>Ish vaqti</th>
+                <th>Telefon</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for restaurant in restaurants %}
+            <tr>
+                <td>{{ restaurant.nomi }}</td>
+                <td>
+                    <img src="{{ restaurant.image.url }}" alt="{{ restaurant.nomi }}" width="100">
+                </td>
+                <td>{{ restaurant.manzil }}</td>
+                <td>{{ restaurant.ish_vaqti }}</td>
+                <td>{{ restaurant.telefon }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</main>
+{% endblock %}
