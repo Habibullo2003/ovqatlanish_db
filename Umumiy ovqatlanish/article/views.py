@@ -16,7 +16,7 @@ class ArticleDetailView(DetailView):
 
 class ArticleUpdateView(UpdateView):
     model = Article
-    fields = ('title', 'body')
+    fields = ('title', 'body', 'photo')
     template_name = 'article/article_edit.html'
 
 
@@ -29,4 +29,4 @@ class ArticleDeleteView(DeleteView):
 class ArticleCreateView(CreateView):
     model = Article
     template_name = 'article/article_new.html'
-    fields = ('title', 'body', 'author')
+    fields = ('title', 'body', 'photo', 'author')
