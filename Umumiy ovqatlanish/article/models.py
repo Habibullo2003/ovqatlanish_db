@@ -5,6 +5,7 @@ from django.urls import reverse
 # Create your models here.
 
 class Article(models.Model):
+    objects = models.Manager()
     title = models.CharField(max_length=200)
     body = models.TextField()
     photo = models.ImageField(upload_to='images/', blank=True)

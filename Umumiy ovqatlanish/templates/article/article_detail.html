@@ -10,8 +10,10 @@
         <p>{{ object.body }}</p>
     </div>
     <p>
+    {% if request.user == article.author %}
         <a href="{% url 'article_edit' article.pk %}" class="btn btn-primary">Tahrirlash</a>
         <a href="{% url 'article_delete' article.pk %}" class="btn btn-danger">O'chirirsh</a>
+    {% endif %}
     <p><a href="{% url 'article_list' %}">Barcha maqolalarni</a>ko'rish</p>
     </p>
 {% endblock %}
