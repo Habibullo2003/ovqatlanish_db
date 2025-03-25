@@ -120,7 +120,6 @@ class Sertifikat(models.Model):
 class OvqatMonitoring(models.Model):
     objects = models.Manager()
     taom = models.ForeignKey(Taomlar, on_delete=models.CASCADE, verbose_name=_('taom'))
-    sotilgan_miqdor = models.IntegerField()
     sertifikat = models.ForeignKey(Sertifikat, on_delete=models.CASCADE, verbose_name=_('sertifikat'))
     oxirgi_yangilanish = models.DateField()
 
