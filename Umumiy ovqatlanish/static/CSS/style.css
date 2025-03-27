@@ -2,33 +2,17 @@
 
 body {
     background: linear-gradient(120deg, #0018fd, rgb(0, 146, 119));
-    font-family: 'Orbitron', sans-serif;
-    text-shadow: 0 0 5px #00eaff;
-    margin: 0;
-    padding: 0;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    align-items: flex-end;
 }
 
 header {
-    color: #00eaff;
+    color: #610161;
     width: 100%;
     text-align: center;
-    background: rgba(0, 0, 0, 0.8);
+    background: rgb(87, 99, 200);
     padding: 20px 0;
-    box-shadow: 0 0 10px #00eaff;
-    animation: glow 1.5s infinite alternate;
-}
-
-@keyframes glow {
-    from {
-        box-shadow: 0 0 10px #00eaff;
-    }
-    to {
-        box-shadow: 0 0 20px #00eaff, 0 0 40px #00eaff;
-    }
 }
 
 h1 {
@@ -47,29 +31,22 @@ h1 {
 }
 
 nav ul {
-    list-style: none;
-    padding: 0;
-    display: flex;
     justify-content: center;
     gap: 20px;
 }
 
 nav ul li a {
-    text-decoration: none;
     color: #00eaff;
     font-size: 1.2rem;
-    padding: 10px 20px;
     border: 2px solid #00eaff;
     border-radius: 10px;
-    transition: all 0.3s ease;
-    background: rgba(0, 0, 0, 0.6);
-    box-shadow: 0 0 10px #00eaff;
+    background: rgb(17, 18, 18);
+    box-shadow: 0 0 10px #0018fd;
 }
 
 nav ul li a:hover {
-    background: #00eaff;
+    background: #08efc4;
     color: #000;
-    text-shadow: none;
     box-shadow: 0 0 20px #00eaff, 0 0 40px #00eaff;
 }
 
@@ -89,7 +66,7 @@ div .card h3 {
 main h3 {
     color: white;
 }
-
+/*start update css*/
 section {
     background: rgba(0, 0, 0, 0.6);
     padding: 20px;

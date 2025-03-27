@@ -1,7 +1,6 @@
 from itertools import zip_longest
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models.functions import ExtractMonth
-from django.template.context_processors import request
 from django.urls import reverse_lazy
 from django.contrib import messages
 from django.db.models import Count, F, Sum, Case, When, Value, CharField
