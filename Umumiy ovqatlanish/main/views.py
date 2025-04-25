@@ -1,7 +1,10 @@
 from itertools import zip_longest
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models.functions import ExtractMonth
+<<<<<<< HEAD
 from main.ai.forecast import run_forecast
+=======
+>>>>>>> e6097d1fb2f57c5632b47310f321376d9bdf34d0
 from django.urls import reverse_lazy
 from django.contrib import messages
 from django.db.models import Count, F, Sum, Case, When, Value, CharField
