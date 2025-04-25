@@ -1,0 +1,17 @@
+<!-- templates/dashboard/forecast.html -->
+{% extends 'base.html' %}
+{% block content %}
+<h2>Buyurtmalar Bashorati (7 kun)</h2>
+<img src="/media/forecast.png" alt="Buyurtma Bashorati">
+<table>
+  <tr><th>Sana</th><th>Bashorat</th><th>Min</th><th>Max</th></tr>
+  {% for row in forecast %}
+    <tr>
+      <td>{{ row.ds }}</td>
+      <td>{{ row.yhat|floatformat:2 }}</td>
+      <td>{{ row.yhat_lower|floatformat:2 }}</td>
+      <td>{{ row.yhat_upper|floatformat:2 }}</td>
+    </tr>
+  {% endfor %}
+</table>
+{% endblock %}

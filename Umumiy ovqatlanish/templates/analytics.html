@@ -4,8 +4,8 @@
 {% block title %}Tahlil{% endblock %}
 
 {% block page_title %}<h2 class="text-white">Tahlil va Hisobotlar</h2>{% endblock %}
-{% block content %}
 
+{% block content %}
 <main class="container mt-4">
     <h2 class="text-center text-white">Biznes Tahlili</h2>
     <p class="text-center text-white">Restoran biznesingizga oid statistik ma'lumotlarni ko'rishingiz mumkin.</p>
@@ -17,6 +17,8 @@
                 <ul>
                 {% for top_food in top_dishes %}
                     <li class="text-dark">{{ top_food.nomi }} - {{ top_food.total_orders }} ta buyurtma</li>
+                {% empty %}
+                    <li>Hozircha hech qanday ma'lumot yo‘q.</li>
                 {% endfor %}
                 </ul>
             </div>
@@ -27,6 +29,8 @@
                 <ul>
                 {% for income in monthly_income %}
                     <li class="text-dark">Oy: {{ income.month_name }} - {{ income.total }} so‘m daromad</li>
+                {% empty %}
+                    <li>Hozircha hech qanday ma'lumot yo‘q.</li>
                 {% endfor %}
                 </ul>
             </div>
@@ -41,6 +45,17 @@
                         <li>Hozircha hech qanday ma'lumot yo‘q.</li>
                     {% endfor %}
                 </ul>
+            </div>
+        </div>
+
+        <!-- Buyurtmalar Bashorati bo'limi -->
+        <div class="col-md-12 mt-4">
+            <div class="forecast-section">
+                <h3 class="text-center text-white">Buyurtmalar Bashorati (7 kun)</h3>
+                <p class="text-center text-white">Kelgusi haftadagi buyurtmalarni taxminiy bashoratini ko‘ring.</p>
+                <div class="text-center">
+                    <a href="{% url 'forecast' %}" class="forecast-btn">Bashoratni Ko‘rish</a>
+                </div>
             </div>
         </div>
     </div>

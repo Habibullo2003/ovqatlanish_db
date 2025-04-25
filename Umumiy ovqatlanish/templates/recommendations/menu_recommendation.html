@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Shaxsiylashtirilgan Taom Tavsiyalari</h1>
+
+{% if error %}
+<p class="text-red-600">{{ error }}</p>
+{% else %}
+<form method="post" class="mb-6">
+    {% csrf_token %}
+    <div>
+        <label>Narx oralig‘i:</label>
+        <input type="number" name="min_price" placeholder="Minimal narx" value="{{ min_price|default_if_none:'' }}" step="1" min="0">
+        –
+        <input type="number" name="max_price" placeholder="Maksimal narx" value="{{ max_price|default_if_none:'' }}" step="1" min="0">
+        <button type="submit">Filtrlash</button>
+    </div>
+</form>
+
+{% if recommended_menus %}
+<p><em>Tavsiya etilgan taomlar:</em></p>
+<ul>
+    {% for taom in recommended_menus %}
+    <li class="mb-4">
+        <h3>{{ taom.nomi }}</h3>
+        <p><strong>Narx:</strong> {{ taom.narx }} so'm</p>
+        <p>{{ taom.tavsif }}</p>
+        {% if taom.image %}
+        <img src="{{ taom.image.url }}" alt="{{ taom.nomi }}" width="150">
+        {% endif %}
+    </li>
+    {% endfor %}
+</ul>
+
+<!-- Filtrlangan taomlar -->
+{% if filtered %}
+<h2>Filterlangan taomlar ({{ min_price }}-{{ max_price }} so'm oralig‘ida):</h2>
+<ul>
+    {% for taom in filtered_menus %}
+    <li class="mb-4">
+        <h3>{{ taom.nomi }}</h3>
+        <p><strong>Narx:</strong> {{ taom.narx }} so'm</p>
+        <p>{{ taom.tavsif }}</p>
+        {% if taom.image %}
+        <img src="{{ taom.image.url }}" alt="{{ taom.nomi }}" width="150">
+        {% endif %}
+    </li>
+    {% empty %}
+    <p>Ushbu narx oralig‘ida taomlar topilmadi.</p>
+    {% endfor %}
+</ul>
+{% endif %}
+
+<!-- Barcha taomlar ro'yxati -->
+<h2>Barcha mavjud taomlar:</h2>
+<ul>
+    {% for taom in all_menus %}
+    <li class="mb-4">
+        <h3>{{ taom.nomi }}</h3>
+        <p><strong>Narx:</strong> {{ taom.narx }} so'm</p>
+        <p>{{ taom.tavsif }}</p>
+        {% if taom.image %}
+        <img src="{{ taom.image.url }}" alt="{{ taom.nomi }}" width="150">
+        {% endif %}
+    </li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>Yetarli maʼlumot yo‘q.</p>
+{% endif %}
+{% endif %}
+{% endblock %}

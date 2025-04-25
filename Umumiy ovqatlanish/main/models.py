@@ -1,6 +1,9 @@
 from django.conf import settings
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 
 class Restoran(models.Model):
@@ -76,12 +79,10 @@ class BuyurtmaTafsiloti(models.Model):
     miqdor = models.IntegerField(null=True, blank=True, verbose_name=_('miqdor'))
     narx = models.DecimalField(null=True, blank=True, max_digits=10, decimal_places=2)
 
-
     class Meta:
         db_table = 'buyurtma_tafsiloti'
         verbose_name = 'Buyurtma Tafsiloti'
         verbose_name_plural = 'Buyurtma Tafsilotlari'
-
 
     def __str__(self):
         return f"{self.buyurtma} - {self.taom} ({self.miqdor} dona)"
@@ -117,6 +118,7 @@ class Sertifikat(models.Model):
     def __str__(self):
         return self.mahsulot_nomi
 
+
 class OvqatMonitoring(models.Model):
     objects = models.Manager()
     taom = models.ForeignKey(Taomlar, on_delete=models.CASCADE, verbose_name=_('taom'))
@@ -128,3 +130,12 @@ class OvqatMonitoring(models.Model):
         verbose_name = 'Ovqat Monitoring'
         verbose_name_plural = 'Ovqat Monitoringlar'
 
+
+class UserMenuChoice(models.Model):
+    objects = models.Manager()
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    menu = models.ForeignKey(Taomlar, on_delete=models.CASCADE)
+    rating = models.IntegerField()  # 1 dan 5 gacha baho
+
+    def __str__(self):
+        return f'{self.user.get_username()} → {self.menu.nomi}'

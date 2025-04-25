@@ -27,6 +27,11 @@
         </div>
         {% endfor %}
     </div>
-</main>
 
+    <!-- Filtrlash sahifasiga chiroyli havola -->
+    <div class="filter-section">
+        <p class="filter-text">O‘zingizga mos taomlarni topish uchun</p>
+        <a href="{% url 'recommendation' %}" class="filter-btn">Taomlarni Filtrlash</a>
+    </div>
+</main>
 {% endblock %}

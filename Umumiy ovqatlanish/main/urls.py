@@ -1,5 +1,6 @@
 from django.urls import path
-from .views import HomeView, MenuView, BuyurtmaCreateView, AnalyticsView, RestoranView, XodimlarView, HisobotlarView, TestView
+from .views import (HomeView, MenuView, BuyurtmaCreateView, AnalyticsView, RestoranView, XodimlarView,
+                    HisobotlarView, TestView, ForecastView)
 
 urlpatterns = [
     path('', HomeView.as_view(), name='home'),
@@ -10,4 +11,5 @@ urlpatterns = [
     path('employees/', XodimlarView.as_view(), name='employees'),
     path('finance/', HisobotlarView.as_view(), name='finance'),
     path('test/', TestView.as_view(), name='test'),
+    path('forecast/', ForecastView.as_view(), name='forecast'),
 ]

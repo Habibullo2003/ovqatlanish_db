@@ -44,8 +44,10 @@ INSTALLED_APPS = [
     'accounts.apps.AccountsConfig',
     'users.apps.UsersConfig',
     'article.apps.ArticleConfig',
+    'recommendations.apps.RecommendationsConfig',
     
     # 3rd party apps
+    'rest_framework',
     'crispy_forms',
     'crispy_bootstrap5',
 ]

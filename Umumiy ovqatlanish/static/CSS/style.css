@@ -121,6 +121,7 @@ button:hover {
     background: #008cff;
     box-shadow: 0 0 20px #00eaff, 0 0 40px #00eaff;
 }
+
 .menu-container {
     display: flex;
     justify-content: center; /* Markazga joylash */
@@ -163,6 +164,73 @@ input, textarea, select {
     border: none;
     border-radius: 5px;
     font-size: 16px;
+}
+
+.filter-link {
+    margin-top: 30px;
+    text-align: center;
+}
+
+.filter-section {
+    text-align: center;
+    margin: 40px 0;
+    padding: 20px;
+    background: linear-gradient(135deg, #00b7eb, #007bff);
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.filter-text {
+    font-size: 1.2rem;
+    color: white;
+    margin-bottom: 15px;
+    font-weight: 500;
+}
+
+.filter-btn {
+    display: inline-block;
+    padding: 12px 30px;
+    background-color: #fff;
+    color: #007bff;
+    font-weight: bold;
+    text-decoration: none;
+    border-radius: 25px;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.filter-btn:hover {
+    background-color: #007bff;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.forecast-section {
+    background: linear-gradient(135deg, #00b7eb, #007bff);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    margin-top: 20px;
+}
+
+.forecast-btn {
+    display: inline-block;
+    padding: 12px 30px;
+    background-color: #fff;
+    color: #007bff;
+    font-weight: bold;
+    text-decoration: none;
+    border-radius: 25px;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.forecast-btn:hover {
+    background-color: #007bff;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
 footer {

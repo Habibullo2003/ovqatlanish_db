@@ -1,7 +1,7 @@
 from itertools import zip_longest
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models.functions import ExtractMonth
-from django.template.context_processors import request
+from main.ai.forecast import run_forecast
 from django.urls import reverse_lazy
 from django.contrib import messages
 from django.db.models import Count, F, Sum, Case, When, Value, CharField
@@ -133,3 +133,15 @@ class TestView(TemplateView):
     def get(self, request, *args, **kwargs):
         messages.success(request, "Xabar ishlayapti!")  # Xabar qo'shish
         return render(request, 'success.html')
+
+
+class ForecastView(View):
+    template_name = 'dashboard/forecast.html'
+
+    def get(self, request):
+        try:
+            # Buyurtmalarni bashorat qilish
+            forecast_result = run_forecast()
+            return render(request, self.template_name, {'graphic': '/media/forecast.png'})
+        except Exception as e:
+            return render(request, self.template_name, {'error': f"Bashorat qilishda xatolik: {str(e)}"})
