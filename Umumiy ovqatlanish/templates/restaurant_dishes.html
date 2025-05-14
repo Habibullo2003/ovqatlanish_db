@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ restaurant.nomi }} - Taomlar{% endblock %}
+{% block page_title %}{{ restaurant.nomi }} - Taomlar{% endblock %}
+
+{% block content %}
+<main class="container mt-4">
+    <h2 class="text-center text-white">{{ restaurant.nomi }} restorani taomlari</h2>
+    <p class="text-center text-white">{{ restaurant.manzil }}</p>
+
+    <div class="row mt-5">
+        {% for dish in dishes %}
+        <div class="col-md-4 mb-4">
+            <div class="card shadow">
+                {% if dish.image %}
+                <img src="{{ dish.image.url }}" class="card-img-top" alt="{{ dish.nomi }}">
+                {% else %}
+                <img src="{% static 'images/default_dish.jpg' %}" class="card-img-top" alt="Default Image">
+                {% endif %}
+                <div class="card-body text-center">
+                    <h5 class="card-title">{{ dish.nomi }}</h5>
+                    <h5 class="card-text">
+                        {% if dish.narx is not None %}
+                        {{ dish.narx }} so'm
+                        {% else %}
+                        <span class="text-danger">Narx mavjud emas</span>
+                        {% endif %}
+                    </h5>
+                    <button class="btn btn-success add-to-cart"
+                            data-taom-id="{{ dish.id }}"
+                            data-name="{{ dish.nomi }}"
+                            data-narx="{{ dish.narx|default:'0' }}">+
+                    </button>
+                    <button class="btn btn-danger remove-from-cart"
+                            data-taom-id="{{ dish.id }}"
+                            data-name="{{ dish.nomi }}"
+                            data-narx="{{ dish.narx|default:'0' }}">-
+                    </button>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <p class="text-white">Bu restoranda taomlar mavjud emas.</p>
+        {% endfor %}
+    </div>
+
+    <hr class="text-white">
+
+    <h3 class="text-white">🛒 Tanlangan taomlar:</h3>
+    <ul id="cart-list" class="list-group"></ul>
+
+    <div class="mt-4">
+        <a href="{% url 'checkout' %}" class="btn btn-primary" id="checkout-button" style="display: none;">
+            Buyurtmani tasdiqlash
+        </a>
+    </div>
+</main>
+<script>
+    const csrftoken = "{{ csrf_token }}";
+</script>
+<script src="{% static 'js/restaurant_dishes.js' %}"
+        data-clear-cart-url="{% url 'clear_cart' %}"
+        data-save-cart-url="{% url 'save_cart' %}"
+        data-save-restaurant-id-url="{% url 'save_restaurant_id' %}"></script>
+{% endblock %}

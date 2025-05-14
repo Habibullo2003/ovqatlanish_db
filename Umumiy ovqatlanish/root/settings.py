@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/5.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
-
+from decimal import Decimal
 from pathlib import Path
 import os
 
@@ -32,6 +32,7 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
+    'django.contrib.humanize',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -51,6 +52,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'crispy_forms',
     'crispy_bootstrap5',
+    'mathfilters',
 ]
 
 MIDDLEWARE = [
@@ -137,6 +139,20 @@ STATICFILES_DIRS = [
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+DELIVERY_DISTANCES = {
+    'Chilonzor': 5,
+    'Yunusobod': 10,
+    'Mirzo Ulugbek': 8,
+    'Yakkasaroy': 6,
+    'Olmazor': 7,
+    'Mirobod': 4,
+    'Sergeli': 12,
+    'Bektemir': 15,
+    'Shayxontohur': 5
+}
+PER_KM_FEE = Decimal('2000')
+MINIMUM_ORDER_FOR_DISCOUNT = Decimal('80000')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field

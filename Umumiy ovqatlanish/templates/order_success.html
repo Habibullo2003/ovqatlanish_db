@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}Buyurtma Muvaffaqiyatli{% endblock %}
+
+{% block content %}
+<main class="container mt-5 text-center">
+    <div class="card">
+        <div class="card-body">
+            <h1 class="text-success mb-4">BUYURTMANGIZ MUVAFFAQIYATLI AMALGA OSHIRILDI</h1>
+            <div class="d-flex justify-content-center gap-3">
+                <a href="{% url 'home' %}" class="btn btn-primary btn-lg">Bosh sahifa</a>
+                <a href="{% url 'contact_courier' %}" class="btn btn-secondary btn-lg">Kuryer bilan bog‘lanish</a>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}

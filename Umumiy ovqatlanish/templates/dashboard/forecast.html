@@ -1,17 +1,162 @@
-<!-- templates/dashboard/forecast.html -->
 {% extends 'base.html' %}
+{% load humanize %}
+
+{% block title %}Buyurtmalar Bashorati va Analitika Grafiklari{% endblock %}
+
+{% block head %}
+    <!-- Plotly JS -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+{% endblock %}
+
+{% block page_title %}
+    <h2 class="text-white">Buyurtmalar Bashorati va Analitika Grafiklari</h2>
+{% endblock %}
+
 {% block content %}
-<h2>Buyurtmalar Bashorati (7 kun)</h2>
-<img src="/media/forecast.png" alt="Buyurtma Bashorati">
-<table>
-  <tr><th>Sana</th><th>Bashorat</th><th>Min</th><th>Max</th></tr>
-  {% for row in forecast %}
-    <tr>
-      <td>{{ row.ds }}</td>
-      <td>{{ row.yhat|floatformat:2 }}</td>
-      <td>{{ row.yhat_lower|floatformat:2 }}</td>
-      <td>{{ row.yhat_upper|floatformat:2 }}</td>
-    </tr>
-  {% endfor %}
-</table>
+<main class="container mt-4">
+    <h2 class="text-center text-white">Analitika Grafiklari</h2>
+    <p class="text-center text-white">Restoran biznesingizning statistik ma'lumotlari asosida chizilgan grafiklar.</p>
+
+    <!-- Umumiy statistika -->
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <div class="card p-4 shadow-lg text-center">
+                <h5><i class="fas fa-shopping-cart mr-2"></i> Umumiy Buyurtmalar</h5>
+                <p class="text-dark" style="font-size: 1.5rem; font-weight: 500; color: #007bff;">{{ total_orders|intcomma }}</p>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card p-4 shadow-lg text-center">
+                <h5><i class="fas fa-money-bill-wave mr-2"></i> Umumiy Daromad</h5>
+                <p class="text-dark" style="font-size: 1.5rem; font-weight: 500; color: #007bff;">{{ total_income|intcomma }} so'm</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Oylik Daromad Grafiki -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <h5 class="text-center">Oylik Daromad Statistikasi</h5>
+            <div id="monthly-income-chart" style="height: 400px;"></div>
+        </div>
+    </div>
+
+    <!-- Eng Ko'p Buyurtma Qilingan Taomlar Grafiki -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <h5 class="text-center">Eng Ko'p Buyurtma Qilingan Taomlar</h5>
+            <div id="top-dishes-chart" style="height: 400px;"></div>
+        </div>
+    </div>
+
+    <!-- Eng Faol Mijozlar Grafiki -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <h5 class="text-center">Eng Faol Mijozlar</h5>
+            <div id="top-customers-chart" style="height: 400px;"></div>
+        </div>
+    </div>
+</main>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Oylik Daromad Grafiki
+        const monthlyIncome = {{ monthly_income|safe }};
+        if (monthlyIncome && monthlyIncome.length > 0) {
+            const months = monthlyIncome.map(item => item.month_name);
+            const incomes = monthlyIncome.map(item => item.total);
+
+            const trace1 = {
+                x: months,
+                y: incomes,
+                type: 'scatter',
+                mode: 'lines+markers',
+                line: {color: '#007bff', width: 3},
+                marker: {size: 8},
+                name: 'Daromad'
+            };
+
+            const layout1 = {
+                title: 'Oylik Daromad Statistikasi',
+                xaxis: {title: 'Oy', gridcolor: '#f1f1f1'},
+                yaxis: {title: "Daromad (so'm)", gridcolor: '#f1f1f1', tickformat: ',.0f'},
+                plot_bgcolor: 'white',
+                paper_bgcolor: 'white',
+                hovermode: 'x unified',
+                margin: {t: 50, b: 50, l: 50, r: 50}
+            };
+
+            Plotly.newPlot('monthly-income-chart', [trace1], layout1);
+        } else {
+            document.getElementById('monthly-income-chart').innerHTML = "<p class='text-muted text-center'>Ma'lumotlar mavjud emas.</p>";
+        }
+
+        // Eng Ko'p Buyurtma Qilingan Taomlar Grafiki
+        const topDishes = {{ top_dishes|safe }};
+        if (topDishes && topDishes.length > 0) {
+            const dishNames = topDishes.map(item => item.nomi);
+            const dishOrders = topDishes.map(item => item.total_orders);
+
+            const trace2 = {
+                x: dishOrders,
+                y: dishNames,
+                type: 'bar',
+                orientation: 'h',
+                marker: {color: '#28a745'},
+                name: 'Buyurtmalar Soni'
+            };
+
+            const layout2 = {
+                title: 'Eng Ko‘p Buyurtma Qilingan Taomlar',
+                xaxis: {title: 'Buyurtmalar Soni', gridcolor: '#f1f1f1'},
+                yaxis: {title: 'Taom', gridcolor: '#f1f1f1'},
+                plot_bgcolor: 'white',
+                paper_bgcolor: 'white',
+                margin: {t: 50, b: 50, l: 150, r: 50}
+            };
+
+            Plotly.newPlot('top-dishes-chart', [trace2], layout2);
+        } else {
+            document.getElementById('top-dishes-chart').innerHTML = "<p class='text-muted text-center'>Ma'lumotlar mavjud emas.</p>";
+        }
+
+        // Eng Faol Mijozlar Grafiki
+        const topCustomers = {{ top_customers|safe }};
+        if (topCustomers && topCustomers.length > 0) {
+            const customerNames = topCustomers.map(item => item.mijoz__username);
+            const customerOrders = topCustomers.map(item => item.order_count);
+
+            const trace3 = {
+                x: customerOrders,
+                y: customerNames,
+                type: 'bar',
+                orientation: 'h',
+                marker: {color: '#dc3545'},
+                name: 'Buyurtmalar Soni'
+            };
+
+            const layout3 = {
+                title: 'Eng Faol Mijozlar',
+                xaxis: {title: 'Buyurtmalar Soni', gridcolor: '#f1f1f1'},
+                yaxis: {title: 'Mijoz', gridcolor: '#f1f1f1'},
+                plot_bgcolor: 'white',
+                paper_bgcolor: 'white',
+                margin: {t: 50, b: 50, l: 150, r: 50}
+            };
+
+            Plotly.newPlot('top-customers-chart', [trace3], layout3);
+        } else {
+            document.getElementById('top-customers-chart').innerHTML = "<p class='text-muted text-center'>Ma'lumotlar mavjud emas.</p>";
+        }
+
+        // Responsive grafiklar
+        window.addEventListener('resize', function () {
+            Plotly.Plots.resize('monthly-income-chart');
+            Plotly.Plots.resize('top-dishes-chart');
+            Plotly.Plots.resize('top-customers-chart');
+        });
+    });
+</script>
 {% endblock %}

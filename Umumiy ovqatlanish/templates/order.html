@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}{{ food.nomi }} - Buyurtma{% endblock %}
+
+{% block content %}
+<main class="container mt-4">
+    <div class="row">
+        <div class="col-md-6 mx-auto">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="text-center">{{ food.nomi }}</h3>
+                    <p class="text-center mb-0">{{ restaurant.nomi }}</p>
+                </div>
+                <div class="card-body">
+                    <div class="text-center mb-4">
+                        {% if food.image %}
+                        <img src="{{ food.image.url }}" class="img-fluid rounded" style="max-height: 250px;"
+                             alt="{{ food.nomi }}">
+                        {% else %}
+                        <img src="{% static 'images/default_dish.jpg' %}" class="img-fluid rounded"
+                             style="max-height: 250px;" alt="Default dish">
+                        {% endif %}
+                    </div>
+
+                    <div class="mb-4">
+                        <h4 class="text-center">{{ food.nomi }}</h4>
+                        <p class="text-center text-muted">{{ food.tavsif|default:_("Tavsif mavjud emas") }}</p>
+                        <h5 class="text-center text-success">{{ food.narx }} so'm</h5>
+                    </div>
+
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="quantity" class="form-label">{% trans "Miqdor" %}</label>
+                            <input type="number" class="form-control" id="quantity" name="quantity"
+                                   min="1" value="{{ initial_quantity }}" required>
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                {% trans "Savatga qo'shish" %}
+                            </button>
+                            <a href="{% url 'restaurant_dishes' restaurant.id %}" class="btn btn-outline-secondary">
+                                {% trans "Restoran menyusiga qaytish" %}
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}

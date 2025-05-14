@@ -1,6 +1,8 @@
 from django.urls import path
 from .views import (HomeView, MenuView, BuyurtmaCreateView, AnalyticsView, RestoranView, XodimlarView,
-                    HisobotlarView, TestView, ForecastView)
+                    HisobotlarView, TestView, OrderForecastView, RestaurantDishesView, CheckoutView, SaveCartView,
+                    SaveRestaurantIdView, ClearCartView, OrderSuccessView, ContactCourierView, cancel_order,
+                    BuyurtmaDetailView, OrderView, CourierSelectionView, AssignCourierView, check_order_status)
 
 urlpatterns = [
     path('', HomeView.as_view(), name='home'),
@@ -11,5 +13,18 @@ urlpatterns = [
     path('employees/', XodimlarView.as_view(), name='employees'),
     path('finance/', HisobotlarView.as_view(), name='finance'),
     path('test/', TestView.as_view(), name='test'),
-    path('forecast/', ForecastView.as_view(), name='forecast'),
+    path('forecast/', OrderForecastView.as_view(), name='forecast'),
+    path('restoran/<int:pk>/taomlar/', RestaurantDishesView.as_view(), name='restaurant_dishes'),
+    path('order/<int:food_id>/<int:restaurant_id>/', OrderView.as_view(), name='order'),
+    path('checkout/', CheckoutView.as_view(), name='checkout'),
+    path('save-cart/', SaveCartView.as_view(), name='save_cart'),
+    path('save-restaurant-id/', SaveRestaurantIdView.as_view(), name='save_restaurant_id'),
+    path('clear-cart/', ClearCartView.as_view(), name='clear_cart'),
+    path('order-success/', OrderSuccessView.as_view(), name='order_success'),
+    path('contact-courier/', ContactCourierView.as_view(), name='contact_courier'),
+    path('check-order-status/<int:buyurtma_id>/', check_order_status, name='check_order_status'),
+    path('cancel-order/<int:buyurtma_id>/', cancel_order, name='cancel_order'),
+    path('buyurtma/<int:pk>/', BuyurtmaDetailView.as_view(), name='buyurtma_detail'),
+    path('courier-selection/<int:buyurtma_id>/', CourierSelectionView.as_view(), name='courier_selection'),
+    path('assign-courier/<int:buyurtma_id>/<int:courier_id>/', AssignCourierView.as_view(), name='assign_courier'),
 ]

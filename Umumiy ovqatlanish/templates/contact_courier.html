@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+
+{% block title %}Kuryer bilan bog‘lanish{% endblock %}
+
+{% block content %}
+<main class="container mt-5 text-center">
+    <div class="card">
+        <div class="card-body">
+            {% if buyurtma.status == 'pending' and not buyurtma.is_cancelled %}
+            <h3>Hozir kuryer qidirilayapti. Kuryer topishimiz bilan sizga 5 daqiqada xabar beramiz!</h3>
+            <div id="timer" class="mt-3 mb-3">
+                <h4>Qolgan vaqt: <span id="time-left">05:00</span></h4>
+            </div>
+            <form method="POST" action="{% url 'cancel_order' buyurtma.id %}"
+                  onsubmit="return confirm('Buyurtmani bekor qilmoqchimisiz?');">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">Buyurtmani bekor qilish</button>
+            </form>
+            {% elif buyurtma.status == 'assigned' and buyurtma.kuryer %}
+            <h3>Kuryer topildi!</h3>
+            <ul class="list-unstyled mt-3">
+                <li><strong>Ism:</strong> {{ buyurtma.kuryer.ism }}</li>
+                <li><strong>Familiya:</strong> {{ buyurtma.kuryer.familiya }}</li>
+                <li><strong>Telefon:</strong> {{ buyurtma.kuryer.telefon }}</li>
+            </ul>
+            <a href="{% url 'home' %}" class="btn btn-primary mt-3">Bosh sahifaga qaytish</a>
+
+            {% elif buyurtma.is_cancelled %}
+            <h3 class="text-danger">Buyurtma bekor qilindi!</h3>
+            <a href="{% url 'home' %}" class="btn btn-primary mt-3">Bosh sahifaga qaytish</a>
+
+            {% else %}
+            <h3 class="text-warning">Kuryer topilmadi. Iltimos, keyinroq qayta urinib ko‘ring.</h3>
+            <a href="{% url 'home' %}" class="btn btn-primary mt-3">Bosh sahifaga qaytish</a>
+            {% endif %}
+        </div>
+    </div>
+</main>
+<script>
+    const timerElement = document.getElementById('time-left');
+    const totalTime = 5 * 60 * 1000; // 5 daqiqa millisekundda
+
+    // Boshlanish vaqtini saqlash (agar mavjud bo'lmasa)
+    if (!localStorage.getItem('startTime')) {
+        localStorage.setItem('startTime', Date.now());
+    }
+
+    const startTime = parseInt(localStorage.getItem('startTime'));
+
+    const timer = setInterval(() => {
+        const now = Date.now();
+        const elapsed = now - startTime;
+        const timeLeftMs = totalTime - elapsed;
+
+        if (timeLeftMs <= 0) {
+            clearInterval(timer);
+            timerElement.textContent = "00:00";
+            localStorage.removeItem('startTime');
+
+            // 5 minut tugagach, buyurtmani bekor qilish uchun serverga so'rov yuborish
+            fetch("{% url 'check_order_status' buyurtma.id %}", {
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.is_cancelled) {
+                        location.reload(); // Sahifani yangilash
+                    }
+                });
+        } else {
+            const timeLeft = Math.floor(timeLeftMs / 1000);
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            timerElement.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+    }, 1000);
+
+    // Har 10 sekundda buyurtma holatini tekshirish
+    setInterval(() => {
+        fetch("{% url 'check_order_status' buyurtma.id %}", {
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status !== 'pending' || data.has_courier || data.is_cancelled) {
+                    localStorage.removeItem('startTime'); // Taymerni tozalash
+                    location.reload();
+                }
+            });
+    }, 10000);
+</script>
+{% endblock %}

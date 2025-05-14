@@ -6,32 +6,38 @@
 {% block page_title %}Restoranlar{% endblock %}
 
 {% block content %}
+<link rel="stylesheet" href="{% static 'CSS/restaurant.css' %}">
 <main class="container mt-4">
     <h2 class="text-center text-white">Restoranlar Ro‘yxati</h2>
     <p class="text-center">Quyidagi ro‘yxatda restoranlaringizni boshqaring va kuzatib boring.</p>
-
     <table class="table table-striped table-bordered mt-2 text-center">
         <thead class="thead-dark">
-            <tr>
-                <th>Nomi</th>
-                <th>Rasm</th>
-                <th>Manzil</th>
-                <th>Ish vaqti</th>
-                <th>Telefon</th>
-            </tr>
+        <tr>
+            <th>Nomi</th>
+            <th>Rasm</th>
+            <th>Manzil</th>
+            <th>Ish vaqti</th>
+            <th>Telefon</th>
+            <th>Restorandan taom buyurtma qilish</th>
+        </tr>
         </thead>
         <tbody>
-            {% for restaurant in restaurants %}
-            <tr>
-                <td>{{ restaurant.nomi }}</td>
-                <td>
-                    <img src="{{ restaurant.image.url }}" alt="{{ restaurant.nomi }}" width="100">
-                </td>
-                <td>{{ restaurant.manzil }}</td>
-                <td>{{ restaurant.ish_vaqti }}</td>
-                <td>{{ restaurant.telefon }}</td>
-            </tr>
-            {% endfor %}
+        {% for restaurant in restaurants %}
+        <tr>
+            <td>{{ restaurant.nomi }}</td>
+            <td>
+                <img src="{{ restaurant.image.url }}" alt="{{ restaurant.nomi }}" width="100">
+            </td>
+            <td>{{ restaurant.manzil }}</td>
+            <td>{{ restaurant.ish_vaqti }}</td>
+            <td>{{ restaurant.telefon }}</td>
+            <td>
+                <a href="{% url 'restaurant_dishes' restaurant.id %}" class="btn btn-danger">
+                    Buyurtma berish
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
         </tbody>
     </table>
 </main>

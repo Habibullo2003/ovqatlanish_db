@@ -4,34 +4,44 @@
 {% block title %}Menu{% endblock %}
 
 {% block page_title %}Bizning taomlar menyusi{% endblock %}
-
 {% block content %}
-<main class="container mt-4">
-    <h2 class="text-center">Menyu</h2>
-    <div class="row mt-3">
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<link rel="stylesheet" href="{% static 'CSS/menu.css' %}">
+<main class="menu-container">
+    <div class="menu-header">
+        <h2>Bizning Taomlar Menyusi</h2>
+    </div>
+
+    <!-- Qidiruv paneli qo'shildi -->
+    <div class="search-bar">
+        <input type="text" placeholder="Taomni qidiring...">
+    </div>
+
+    <div class="row">
         {% for food in foods %}
-        <div class="col-md-4">
-            <div class="card shadow-sm">
-                <img src="{{ food.image.url }}" class="card-img-top img-fluid" alt="{{ food.nomi }}"
-                     style="width: 100%; height: 200px; object-fit: cover;">
-                <div class="card-body text-center">
-                    <p class="card-text" style="color: black">{{ food.nomi }} - {{ food.narx }} so'm</p>
-                    <button class="btn btn-primary details-btn"
-                            data-title="{{ food.nomi }}"
-                            data-image="{{ food.image.url }}"
-                            data-description="{{ food.tavsif }}">
-                        Batafsil
-                    </button>
+        <div class="col-md-4 col-sm-6 food-card">
+            <div class="card">
+                <img src="{{ food.image.url }}" class="food-image" alt="{{ food.nomi }}">
+                <div class="card-body">
+                    <h3 class="food-name">{{ food.nomi }}</h3>
+                    <p class="food-price">{{ food.narx }} so'm</p>
+
+                    <div class="restaurant-options">
+                        <p class="available-text">Mavjud restoranlar:</p>
+                        {% for restaurant in food.restoranlar.all %}
+                        <a href="{% url 'order' food.id restaurant.id %}" class="restaurant-btn">
+                            {{ restaurant.nomi }}
+                        </a>
+                        {% endfor %}
+                    </div>
                 </div>
             </div>
         </div>
         {% endfor %}
     </div>
-
-    <!-- Filtrlash sahifasiga chiroyli havola -->
-    <div class="filter-section">
-        <p class="filter-text">O‘zingizga mos taomlarni topish uchun</p>
-        <a href="{% url 'recommendation' %}" class="filter-btn">Taomlarni Filtrlash</a>
-    </div>
 </main>
+<!-- Anime.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+<script src="{% static 'js/menu.js' %}"></script>
 {% endblock %}

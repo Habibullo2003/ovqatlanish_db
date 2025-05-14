@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Kuryer Tanlash - Buyurtma #{{ buyurtma.id }}{% endblock %}
+{% block page_title %}Kuryer Tanlash - Buyurtma #{{ buyurtma.id }}{% endblock %}
+
+{% block content %}
+    <link rel="stylesheet" href="{% static 'CSS/courier_selection.css' %}">
+
+    <section class="courier-selection my-5">
+        <div class="container">
+            <h2>Buyurtma #{{ buyurtma.id }} uchun Kuryer Tanlash</h2>
+            {% if couriers %}
+                <table class="courier-table">
+                    <thead>
+                        <tr>
+                            <th>Ism Familiya</th>
+                            <th>Telefon Raqam</th>
+                            <th>Reyting</th>
+                            <th>Holati</th>
+                            <th>Harakat</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for courier in couriers %}
+                            <tr>
+                                <td>{{ courier.ism }} {{ courier.familiya }}</td>
+                                <td>{{ courier.telefon }}</td>
+                                <td>{{ courier.rating|floatformat:1 }} / 5.0</td>
+                                <td>
+                                    {% if courier.band %}
+                                        <span class="status-available">Bo'sh</span>
+                                    {% else %}
+                                        <span class="status-unavailable">Band</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <form method="post" action="{% url 'assign_courier' buyurtma.id courier.id %}">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-primary">Tanlash</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p class="message">Hozirda bo'sh kuryerlar mavjud emas.</p>
+            {% endif %}
+            <a href="{% url 'admin:main_buyurtma_change' buyurtma.id %}" class="btn btn-back">Orqaga Qaytish</a>
+        </div>
+    </section>
+{% endblock %}

@@ -1,29 +1,34 @@
 {% extends 'base.html' %}
 {% load static %}
+
 {% block title %}Home{% endblock %}
+
 {% block content %}
-<main>
-    <h2>Xush kelibsiz!</h2>
-    <p>Bizning umumiy ovqatlanish tarmog'imizga xush kelibsiz. Eng yaxshi taomlarni tatib ko'ring!</p> <br>
-    <section>
-        <h3>Bugungi Maxsus Taomlar</h3>
-        <div class="row mt-3">
-            {% for food in foods %}
-            {% if food.nomi == "Osh" or food.nomi == "Shashlik" %}
-            <div class="col-md-6">
-                <div class="card shadow-sm">
-                    <img src="{{ food.image.url }}" alt="{{ food.nomi }}">
-                    <div class="card-body">
-                        <p style="color: black">{{ food.nomi }} - {{ food.narx }} so'm</p>
-                        <button class="btn btn-primary details-btn">
-                            {{ food.tavsif }}
-                        </button>
+<link rel="stylesheet" href="{% static 'CSS/index.css' %}">
+<div class="home-page">
+    <main>
+        <h2>Bizning umumiy ovqatlanish tarmog'imizga xush kelibsiz...</h2>
+
+        <section class="home-food-cards">
+            <h3>Bugungi Maxsus Taomlar</h3>
+            <div class="row mt-3">
+                {% for food in foods %}
+                {% if food.nomi == "Osh" or food.nomi == "Shashlik" %}
+                <div class="col-md-6 home-food-card">
+                    <div class="card shadow-sm">
+                        <img src="{{ food.image.url }}" alt="{{ food.nomi }}">
+                        <div class="card-body">
+                            <p style="color: black">{{ food.nomi }} - {{ food.narx }} so'm</p>
+                            <button class="btn btn-primary details-btn">
+                                {{ food.tavsif }}
+                            </button>
+                        </div>
                     </div>
                 </div>
+                {% endif %}
+                {% endfor %}
             </div>
-            {% endif %}
-            {% endfor %}
-        </div>
-    </section>
-</main>
+        </section>
+    </main>
+</div>
 {% endblock %}

@@ -1,0 +1,209 @@
+/* Umumiy body stillari */
+body {
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+    font-family: 'Times New Roman', Tahoma, Geneva, Verdana, sans-serif;
+    color: #333;
+    min-height: 100vh;
+}
+
+/* Asosiy konteyner */
+.menu-container {
+    padding: 3rem 2rem;
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+/* Sarlavha */
+.menu-header {
+    text-align: center;
+    margin-bottom: 3rem;
+    padding: 1.5rem;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
+}
+
+.menu-header h2 {
+    font-size: 2.5rem;
+    color: #1e3c72;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+}
+
+/* Qidiruv paneli */
+.search-bar {
+    margin: 1rem auto 2rem auto;
+    max-width: 500px;
+    width: 100%;
+}
+
+.search-bar input {
+    width: 100%;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 30px;
+    font-size: 1rem;
+    box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: all 0.3s ease;
+    background-color: #fff;
+    color: #333;
+}
+
+.search-bar input::placeholder {
+    color: #999;
+}
+
+.search-bar input:focus {
+    outline: none;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Kartalar */
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 0 -15px;
+    max-width: 1200px;
+    width: 100%;
+}
+
+/* Har bir taom kartasi */
+.food-card {
+    padding: 0 15px;
+    margin-bottom: 30px;
+    flex: 0 0 100%;
+    max-width: 100%;
+    animation: fadeInUp 0.6s ease forwards;
+    opacity: 0;
+}
+
+@media (min-width: 576px) {
+    .food-card {
+        flex: 0 0 50%;
+        max-width: 50%;
+    }
+}
+
+@media (min-width: 768px) {
+    .food-card {
+        flex: 0 0 33.3333%;
+        max-width: 33.3333%;
+    }
+}
+
+@media (min-width: 1200px) {
+    .food-card {
+        flex: 0 0 25%;
+        max-width: 25%;
+    }
+}
+
+/* Kartaning ichki dizayni */
+.card {
+    border: none;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    background: #fff;
+    height: 100%;
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+}
+
+/* Taom rasmi */
+.food-image {
+    height: 220px;
+    width: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+.card:hover .food-image {
+    transform: scale(1.05);
+}
+
+/* Kartaning tanasi */
+.card-body {
+    padding: 1.5rem;
+    text-align: center;
+}
+
+/* Taom nomi */
+.food-name {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 0.5rem;
+}
+
+/* Taom narxi */
+.food-price {
+    font-size: 1.3rem;
+    color: #ff6b6b;
+    font-weight: 700;
+    margin-bottom: 1.2rem;
+}
+
+/* Restoranlar bo‘limi */
+.restaurant-options {
+    margin-top: 1.5rem;
+    border-top: 1px solid #eee;
+    padding-top: 1.2rem;
+}
+
+.available-text {
+    font-size: 0.9rem;
+    color: #555;
+    margin-bottom: 0.8rem;
+    font-weight: 500;
+}
+
+/* Restoran tugmalari */
+.restaurant-btn {
+    display: inline-block;
+    padding: 0.6rem 1.2rem;
+    margin: 0.3rem;
+    background: linear-gradient(45deg, #3498db, #1abc9c);
+    color: white;
+    border-radius: 25px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+}
+
+.restaurant-btn:hover {
+    background: linear-gradient(45deg, #2980b9, #16a085);
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    color: white;
+}
+
+/* Animatsiya */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Qo‘shimcha: .restaurant-options ichidagi matn qora bo‘lishi shart emas */
+.restaurant-options p {
+    color: #444;
+}

@@ -1,0 +1,46 @@
+/* Main container with specific home-page class */
+.home-page main {
+    font-family: 'Times New Roman', Tahoma, Geneva, Verdana, sans-serif;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    color: #5b7ce8;
+}
+
+/* Scoped headings */
+.home-page h2 {
+    color: white;
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    text-align: center;
+    padding-bottom: 10px;
+}
+
+/* Home page specific cards */
+.home-page .home-food-cards .row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+    margin: 0 -15px;
+}
+
+.home-page .home-food-card {
+    flex: 0 0 calc(50% - 30px);
+    max-width: calc(50% - 30px);
+    padding: 0 15px;
+}
+
+.home-page .home-food-card .card {
+    border: none;
+    border-radius: 10px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background-color: #fff;
+}
+
+/* Only apply hover effects on home page */
+.home-page .home-food-card .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}

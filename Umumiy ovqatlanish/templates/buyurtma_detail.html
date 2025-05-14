@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Buyurtma №{{ buyurtma.id }}{% endblock %}
+
+{% block content %}
+<p><strong>Foydalanuvchi:</strong> {{ buyurtma.mijoz }}</p>
+<p><strong>Restoran:</strong> {{ buyurtma.restoran }}</p>
+<p><strong>Manzil:</strong> {{ buyurtma.manzil }}</p>
+<p><strong>Umumiy narx:</strong> {{ buyurtma.total_price }} so'm</p>
+<p><strong>Status:</strong> {{ buyurtma.status }}</p>
+<p><strong>Kuryer:</strong> {{ buyurtma.kuryer|default:"Kuryer tayinlanmagan" }}</p>
+
+{% if rasmiylashtirilsin %}
+<p style="color: red; font-weight: bold;">Buyurtma hali rasmiylashtirilmagan! Iltimos, rasmiylashtiring.</p>
+<a href="{% url 'contact_courier' %}" class="btn btn-primary">Buyurtmani rasmiylashtirish</a>
+{% endif %}
+{% endblock %}

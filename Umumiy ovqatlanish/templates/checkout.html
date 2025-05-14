@@ -1,0 +1,277 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load mathfilters %}
+
+{% block title %}Buyurtma Tasdiqlash{% endblock %}
+
+{% block content %}
+<main class="container mt-4">
+    <h2 class="text-center text-white">{{ restaurant.nomi }} restorani taomlari</h2>
+    <p class="text-center text-white">{{ restaurant.manzil }}</p>
+
+    <h3 class="text-white">🛒 Tanlangan taomlar:</h3>
+    {% if cart_items %}
+    <ul class="list-group mb-4">
+        {% for item in cart_items %}
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            <span>
+                {{ item.taom.nomi }} - {{ item.count }} ta
+                <small class="text-muted">({{ item.taom.narx|default:0|floatformat:0 }} so'm dan)</small>
+            </span>
+            <span class="badge bg-primary rounded-pill">
+                {{ item.taom.narx|default:0|mul:item.count|floatformat:0 }} so'm
+            </span>
+        </li>
+        {% endfor %}
+    </ul>
+
+    <form method="POST" action="{% url 'checkout' %}" class="needs-validation" novalidate>
+        {% csrf_token %}
+        <div class="card mb-4">
+            <div class="card-body">
+                <h5 class="card-title">Yetkazib berish ma'lumotlari</h5>
+
+                <div class="mb-3">
+                    <label for="address" class="form-label">Manzil</label>
+                    <select class="form-select" id="address" name="address" required>
+                        <option value="" selected disabled>Manzilni tanlang</option>
+                        {% for district in distances %}
+                        <option value="{{ district }}">{{ district }}</option>
+                        {% endfor %}
+                    </select>
+                    <div class="invalid-feedback">
+                        Iltimos, manzilni tanlang
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">To'lov usuli</label>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="payment_type" id="cash" value="cash" checked required>
+                        <label class="form-check-label" for="cash">
+                            Naqd pul
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="payment_type" id="card" value="card" required>
+                        <label class="form-check-label" for="card">
+                            Karta orqali
+                        </label>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="order_time" class="form-label">Buyurtma vaqti va kuni</label>
+                    <input type="datetime-local" class="form-control" id="order_time" name="order_time" required>
+                    <div class="invalid-feedback">
+                        Iltimos, buyurtma vaqtini tanlang
+                    </div>
+                </div>
+
+                <!-- Minimal buyurtma summasi uchun tasdiqlash -->
+                <div class="mb-3" id="minimum-order-checkbox" style="display: none;">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="agree_to_minimum_fee" id="agree_to_minimum_fee">
+                        <label class="form-check-label" for="agree_to_minimum_fee">
+                            Buyurtma summasi 40,000 so'mdan kam. Minimal to'lovni (40,000 so'm) qabul qilishga roziman.
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card mb-4">
+            <div class="card-body">
+                <h5 class="card-title">Promokod</h5>
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" id="promo_code" name="promo_code" placeholder="Promokodni kiriting">
+                    <button class="btn btn-outline-secondary" type="button" id="apply-promo">Qo'llash</button>
+                </div>
+                <div id="promocode-feedback" class="small"></div>
+            </div>
+        </div>
+
+        <div class="card mb-4">
+            <div class="card-body">
+                <h5 class="card-title">Umumiy hisob</h5>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span>Taomlar narxi:</span>
+                        <span id="subtotal-price">{{ subtotal|floatformat:0 }} so'm</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span>Yetkazib berish:</span>
+                        <span id="delivery-price">0 so'm</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between" id="additional-fee-item" style="display: none;">
+                        <span>Qo'shimcha to'lov (minimal summa uchun):</span>
+                        <span id="additional-fee">0 so'm</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between text-success" id="discount-item" style="display: none;">
+                        <span>Chegirma:</span>
+                        <span id="discount-amount">0 so'm</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between fw-bold">
+                        <span>Jami:</span>
+                        <span id="total-price">{{ subtotal|floatformat:0 }} so'm</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-success btn-lg w-100 mb-4">Buyurtmani tasdiqlash</button>
+    </form>
+
+    {% if is_first_order and can_use_promo %}
+    <div class="alert alert-warning">
+        <h4 class="alert-heading">Xush kelibsiz!</h4>
+        <p class="text-dark">Hurmatli {{ request.user.username }}, 1-buyurtmangizda <strong>WELCOME</strong> promokodi bilan 50% chegirma oling!</p>
+    </div>
+    {% endif %}
+
+    {% else %}
+    <div class="alert alert-info text-center">
+        <p class="mb-3">Savat bo'sh</p>
+        <a href="{% url 'menu' %}" class="btn btn-primary">Taomlar menyusiga qaytish</a>
+    </div>
+    {% endif %}
+</main>
+
+{% if cart_items %}
+<!-- JSON string sifatida ma'lumotlarni yuklash -->
+{{ cart_items | safe | escapejs | json_script:"cart-items-data" }}
+{{ distances | safe | escapejs | json_script:"distances-data" }}
+
+<script>
+    const cartItemsString = document.getElementById('cart-items-data').textContent;
+    const distancesString = document.getElementById('distances-data').textContent;
+
+    const cartItems = cartItemsString;
+    const isFirstOrder = "{{ is_first_order | yesno:'true,false' }}";
+    const canUsePromo = "{{ can_use_promo | yesno:'true,false' }}";
+    const distances = distancesString;
+    const subtotal = "{{ subtotal | floatformat:2 }}";
+    const perKmFee = "{{ settings.PER_KM_FEE | default:2000 }}";
+    const minimumOrderForDiscount = "{{ settings.MINIMUM_ORDER_FOR_DISCOUNT | default:80000 }}";
+
+    const cartItemsParsed = JSON.parse(cartItems);
+    const distancesParsed = JSON.parse(distances);
+    const isFirstOrderParsed = isFirstOrder === "true";
+    const canUsePromoParsed = canUsePromo === "true";
+    const subtotalParsed = parseFloat(subtotal);
+    const perKmFeeParsed = parseFloat(perKmFee);
+    const minimumOrderForDiscountParsed = parseFloat(minimumOrderForDiscount);
+
+    const MINIMUM_ORDER_AMOUNT = 40000; // Minimal buyurtma summasi
+
+    function formatPrice(price) {
+        return new Intl.NumberFormat('uz-UZ').format(price) + ' so\'m';
+    }
+
+    function calculateTotal() {
+        let deliveryFee = 0;
+        const selectedDistrict = document.getElementById('address').value;
+        if (selectedDistrict && distancesParsed[selectedDistrict]) {
+            deliveryFee = isFirstOrderParsed ? 0 : distancesParsed[selectedDistrict] * perKmFeeParsed;
+        }
+
+        let discount = 0;
+        const promoCode = document.getElementById('promo_code').value.trim().toLowerCase();
+        const feedback = document.getElementById('promocode-feedback');
+
+        if (promoCode === 'welcome') {
+            if (!isFirstOrderParsed) {
+                feedback.textContent = "❌ Promokod faqat 1-buyurtma uchun amal qiladi";
+                feedback.style.color = "red";
+                document.getElementById('discount-item').style.display = "none";
+            } else if (!canUsePromoParsed) {
+                feedback.textContent = "❌ Siz allaqachon WELCOME promokodidan foydalanib bo'lgansiz";
+                feedback.style.color = "red";
+                document.getElementById('discount-item').style.display = "none";
+            } else if (subtotalParsed < minimumOrderForDiscountParsed) {
+                feedback.textContent = "❌ Minimal buyurtma miqdori yetarli emas";
+                feedback.style.color = "red";
+                document.getElementById('discount-item').style.display = "none";
+            } else {
+                discount = subtotalParsed * 0.5;
+                feedback.textContent = "✅ 50% chegirma qo'llandi!";
+                feedback.style.color = "green";
+                document.getElementById('discount-item').style.display = "flex";
+            }
+        } else if (promoCode) {
+            feedback.textContent = "❌ Noto'g'ri promokod";
+            feedback.style.color = "red";
+            document.getElementById('discount-item').style.display = "none";
+        } else {
+            feedback.textContent = "";
+            document.getElementById('discount-item').style.display = "none";
+        }
+
+        // Minimal buyurtma summasini tekshirish
+        let additionalFee = 0;
+        if (subtotalParsed < MINIMUM_ORDER_AMOUNT) {
+            document.getElementById('minimum-order-checkbox').style.display = 'block';
+            const agreeToMinimumFee = document.getElementById('agree_to_minimum_fee').checked;
+            if (agreeToMinimumFee) {
+                additionalFee = MINIMUM_ORDER_AMOUNT - subtotalParsed;
+                document.getElementById('additional-fee-item').style.display = 'flex';
+            } else {
+                document.getElementById('additional-fee-item').style.display = 'none';
+            }
+        } else {
+            document.getElementById('minimum-order-checkbox').style.display = 'none';
+            document.getElementById('additional-fee-item').style.display = 'none';
+        }
+
+        const total = subtotalParsed - discount + deliveryFee + additionalFee;
+
+        document.getElementById('subtotal-price').textContent = formatPrice(subtotalParsed);
+        document.getElementById('delivery-price').textContent = formatPrice(deliveryFee);
+        document.getElementById('discount-amount').textContent = formatPrice(discount);
+        document.getElementById('additional-fee').textContent = formatPrice(additionalFee);
+        document.getElementById('total-price').textContent = formatPrice(total);
+    }
+
+    function validateOrderTime() {
+        const orderTimeInput = document.getElementById('order_time').value;
+        const selectedTime = new Date(orderTimeInput);
+        const currentTime = new Date();
+
+        if (orderTimeInput && selectedTime <= currentTime) {
+            document.getElementById('order_time').setCustomValidity("Buyurtma vaqti hozirgi vaqtdan keyin bo‘lishi kerak!");
+        } else {
+            document.getElementById('order_time').setCustomValidity("");
+        }
+    }
+
+    document.getElementById('apply-promo').addEventListener('click', calculateTotal);
+    document.getElementById('address').addEventListener('change', calculateTotal);
+    document.getElementById('promo_code').addEventListener('keyup', function (e) {
+        if (e.key === 'Enter') calculateTotal();
+    });
+    document.getElementById('order_time').addEventListener('change', validateOrderTime);
+    document.getElementById('agree_to_minimum_fee')?.addEventListener('change', calculateTotal);
+
+    document.addEventListener('DOMContentLoaded', function () {
+        calculateTotal();
+        validateOrderTime();
+    });
+
+    (function () {
+        'use strict'
+        const forms = document.querySelectorAll('.needs-validation')
+
+        Array.from(forms).forEach(form => {
+            form.addEventListener('submit', event => {
+                if (!form.checkValidity()) {
+                    event.preventDefault()
+                    event.stopPropagation()
+                }
+
+                form.classList.add('was-validated')
+            }, false)
+        })
+    })();
+</script>
+{% endif %}
+{% endblock %}

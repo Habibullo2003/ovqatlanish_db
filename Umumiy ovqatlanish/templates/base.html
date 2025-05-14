@@ -8,8 +8,9 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="{% static 'CSS/style.css' %}">
-    <script src="{% static 'js/script.js' %}" ></script>
+    <script src="{% static 'js/script.js' %}"></script>
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
@@ -34,7 +35,7 @@
             <ul class="nav">
                 <li class="nav-item"><a class="nav-link text-white" href="/">Home</a></li>
                 <li class="nav-item"><a class="nav-link text-white" href="{% url 'menu' %}">Menyu</a></li>
-                <li class="nav-item"><a class="nav-link text-white" href="{% url 'orders' %}">Buyurtmalar</a></li>
+                <li class="nav-item"><a class="nav-link text-white" href="{% url 'monitoring' %}">Monitoring</a></li>
                 <li class="nav-item"><a class="nav-link text-white" href="{% url 'analytics' %}">Tahlil</a></li>
                 <li class="nav-item"><a class="nav-link text-white" href="{% url 'restaurants' %}">Restoranlar</a></li>
                 <li class="nav-item"><a class="nav-link text-white" href="{% url 'employees' %}">Xodimlar</a></li>
@@ -45,7 +46,7 @@
     </div>
 </header>
 
-<nav class="navbar navbar-expand-md navbar-dark bg-dark">
+<nav class="navbar navbar-expand-md navbar-success bg-success">
     <div class="container">
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarCollapse" aria-controls="navbarCollapse"
@@ -54,30 +55,30 @@
         </button>
         <div class="collapse navbar-collapse justify-content-end" id="navbarCollapse">
             {% if user.is_authenticated %}
-                <ul class="navbar-nav">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="userMenu"
-                           data-bs-toggle="dropdown" aria-haspopup="true"
-                           aria-expanded="false">
-                            {{ user.username }}
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-end">
-                            <a class="dropdown-item" href="{% url 'article_new' %}">Yangi maqola</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="{% url 'password_change' %}">Parolni o'zgartirish</a>
-                            <div class="dropdown-divider"></div>
-                            <form action="{% url 'logout' %}" method="post" class="d-inline">
-                                {% csrf_token %}
-                                <button type="submit" class="dropdown-item">Chiqish</button>
-                            </form>
-                        </div>
-                    </li>
-                </ul>
+            <ul class="navbar-nav">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="userMenu"
+                       data-bs-toggle="dropdown" aria-haspopup="true"
+                       aria-expanded="false">
+                        {{ user.username }}
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-end">
+                        <a class="dropdown-item" href="{% url 'article_new' %}">Yangi maqola</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="{% url 'password_change' %}">Parolni o'zgartirish</a>
+                        <div class="dropdown-divider"></div>
+                        <form action="{% url 'logout' %}" method="post" class="d-inline">
+                            {% csrf_token %}
+                            <button type="submit" class="dropdown-item">Chiqish</button>
+                        </form>
+                    </div>
+                </li>
+            </ul>
             {% else %}
-                <div class="d-flex">
-                    <a href="{% url 'login' %}" class="btn btn-outline-secondary me-2">Kirish</a>
-                    <a href="{% url 'register' %}" class="btn btn-primary">Ro'yxatdan o'tish</a>
-                </div>
+            <div class="d-flex">
+                <a href="{% url 'login' %}" class="btn btn-outline-secondary me-2">Kirish</a>
+                <a href="{% url 'register' %}" class="btn btn-primary">Ro'yxatdan o'tish</a>
+            </div>
             {% endif %}
         </div>
     </div>
@@ -87,8 +88,41 @@
     {% block content %} {% endblock %}
 </div>
 
-<footer class="bg-dark text-white text-center py-3 mt-5">
-    <p>&copy; 2025 Umumiy Ovqatlanish Tarmog'i</p>
+<footer class="site-footer">
+    <div class="footer-container">
+        <div class="footer-about">
+            <div class="footer-logo">Umumiy Ovqatlanish</div>
+            <p>O'zbek milliy taomlari va zamonaviy ovqatlanish uslublarini taklif etuvchi yetakchi xizmat.</p>
+            <div class="social-links">
+                <a href="https://t.me/@HXCR7"><i class="fab fa-telegram"></i></a>
+                <a href="https://www.instagram.com/Habibullo2527"><i class="fab fa-instagram"></i></a>
+                <a href="https://chatgpt.com/"><i class="fas fa-robot"></i></a>
+                <a href="https://github.com/Habibullo2003/"><i class="fab fa-github"></i></a>
+            </div>
+        </div>
+
+        <div class="footer-links">
+            <h3>Tez havolalar</h3>
+            <ul>
+                <li><a href="/">Bosh sahifa</a></li>
+                <li><a href="{% url 'menu' %}">Menu</a></li>
+                <li><a href="{% url 'monitoring' %}">Monitoring</a></li>
+                <li><a href="{% url 'restaurants' %}">Restoranlar</a></li>
+                <li><a href="{% url 'employees' %}">Xodimlar</a></li>
+            </ul>
+        </div>
+        <div class="footer-contact">
+            <h3>Aloqa</h3>
+            <p><i class="fas fa-map-marker-alt"></i> Toshkent shahar, Yunusobod tumani</p>
+            <p><i class="fas fa-phone"></i> +998 99 123 45 67</p>
+            <p><i class="fas fa-envelope"></i> info@ovqatlanish.uz</p>
+            <p><i class="fas fa-clock"></i> Dushanba-Yakshanba: 09:00 - 23:00</p>
+        </div>
+    </div>
+
+    <div class="footer-bottom">
+        <p>&copy; 2025 Umumiy Ovqatlanish Xizmati. Barcha huquqlar himoyalangan.</p>
+    </div>
 </footer>
 </body>
 </html>

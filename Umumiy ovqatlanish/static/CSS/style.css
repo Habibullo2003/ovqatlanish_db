@@ -1,53 +1,208 @@
 /* Futuristik dizayn uchun CSS */
 
+/* Body Styling with Animated Gradient */
 body {
-    background: linear-gradient(120deg, #0018fd, rgb(0, 146, 119));
+    background: linear-gradient(-45deg, #0018fd, #009277, #610161, #5700c8);
+    background-size: 400% 400%;
+    min-height: 100vh;
+    margin: 0;
     display: flex;
     flex-direction: column;
-    align-items: flex-end;
+    align-items: center;
+    justify-content: flex-start;
+    animation: gradientBG 15s ease infinite;
+    font-family: 'Poppins', sans-serif;
+    color: black;
+    overflow-x: hidden;
 }
 
+@keyframes gradientBG {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+/* Navbar Container */
+.navbar {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    padding: 1rem 2rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    position: inherit;
+    top: 0;
+    z-index: 1000;
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(0, 234, 255, 0.1);
+}
+
+/* Navbar List */
+.navbar-nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+/* Navbar Links */
+.nav-link {
+    color: #00eaff;
+    font-size: 1.1rem;
+    font-weight: 600;
+    text-decoration: none;
+    padding: 0.7rem 1.5rem;
+    border-radius: 8px;
+    background: rgba(17, 18, 18, 0.7);
+    border: 2px solid rgba(0, 234, 255, 0.3);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 24, 253, 0.2);
+}
+
+/* Hover Effects */
+.nav-link:hover {
+    color: #000;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 234, 255, 0.4);
+    border-color: #08efc4;
+    background: linear-gradient(45deg, #08efc4, #00eaff);
+}
+
+/* Active Link */
+.nav-link.active {
+    background: linear-gradient(45deg, #00eaff, #08efc4);
+    color: #000;
+    box-shadow: 0 0 15px rgba(0, 234, 255, 0.6);
+}
+
+/* Underline Animation */
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 2px;
+    background: #08efc4;
+    transition: width 0.3s ease;
+}
+
+.nav-link:hover::after {
+    width: 70%;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .navbar-nav {
+        flex-direction: column;
+        gap: 0.8rem;
+    }
+
+    .nav-link {
+        padding: 0.5rem 1rem;
+        font-size: 1rem;
+    }
+}
+
+/* Logo/Brand Styling */
+.navbar-brand {
+    color: #00eaff;
+    font-size: 1.5rem;
+    font-weight: 700;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.navbar-brand:hover {
+    text-shadow: 0 0 10px rgba(0, 234, 255, 0.7);
+}
+
+/* Modern Header Design */
 header {
-    color: #610161;
     width: 100%;
     text-align: center;
-    background: rgb(87, 99, 200);
-    padding: 20px 0;
+    padding: 2rem 0;
+    background: rgba(87, 99, 200, 0.85);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    position: relative;
+    overflow: hidden;
 }
 
+header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg,
+    rgba(0, 234, 255, 0.1) 0%,
+    rgba(97, 1, 97, 0.3) 50%,
+    rgba(0, 234, 255, 0.1) 100%);
+    animation: shine 3s infinite;
+}
+
+@keyframes shine {
+    0% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+/* Animated Heading */
 h1 {
-    font-size: 2.5rem;
+    font-size: 3rem;
     text-transform: uppercase;
-    animation: textGlow 1.5s infinite alternate;
+    font-weight: 800;
+    letter-spacing: 2px;
+    margin: 0;
+    position: relative;
+    display: inline-block;
+    background: linear-gradient(90deg, #00eaff, #08efc4, #00eaff);
+    background-size: 200% auto;
+    color: transparent;
+    -webkit-background-clip: text;
+    background-clip: text;
+    animation: textGradient 3s linear infinite;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    padding: 0 2rem;
 }
 
-@keyframes textGlow {
-    from {
-        text-shadow: 0 0 5px #00eaff;
+@keyframes textGradient {
+    0% {
+        background-position: 0% center;
     }
-    to {
-        text-shadow: 0 0 15px #00eaff;
+    100% {
+        background-position: 200% center;
     }
 }
 
-nav ul {
-    justify-content: center;
-    gap: 20px;
-}
+/* Responsive Design */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 2rem;
+        padding: 0 1rem;
+    }
 
-nav ul li a {
-    color: #00eaff;
-    font-size: 1.2rem;
-    border: 2px solid #00eaff;
-    border-radius: 10px;
-    background: rgb(17, 18, 18);
-    box-shadow: 0 0 10px #0018fd;
-}
-
-nav ul li a:hover {
-    background: #08efc4;
-    color: #000;
-    box-shadow: 0 0 20px #00eaff, 0 0 40px #00eaff;
+    header {
+        padding: 1.5rem 0;
+    }
 }
 
 main {
@@ -55,17 +210,6 @@ main {
     padding: 50px 20px;
 }
 
-main h2, p {
-    color: white;
-}
-
-div .card h3 {
-    color: black;
-}
-
-main h3 {
-    color: white;
-}
 /*start update css*/
 section {
     background: rgba(0, 0, 0, 0.6);
@@ -97,13 +241,6 @@ button {
 button:hover {
     background: #008cff;
     box-shadow: 0 0 20px #00eaff, 0 0 40px #00eaff;
-}
-
-.menu-container {
-    display: flex;
-    justify-content: center; /* Markazga joylash */
-    gap: 20px; /* Ovqatlar orasida bo‘sh joy */
-    flex-wrap: wrap; /* Agar joy yetmasa, keyingi qatorga tushadi */
 }
 
 .food-item {
@@ -210,11 +347,146 @@ input, textarea, select {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
-footer {
-    text-align: center;
-    padding: 15px;
+/* FULL-WIDTH FOOTER STYLING */
+.site-footer {
+    background-color: #1a1a1a;
+    color: #ffffff;
+    padding: 50px 0 0;
+    font-family: 'Segoe UI', Roboto, sans-serif;
     width: 100%;
-    background: rgba(0, 0, 0, 0.8);
-    box-shadow: 0 0 10px #00eaff;
-    animation: glow 1.5s infinite alternate;
+    line-height: 1.6;
 }
+
+.footer-container {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 40px;
+    padding: 0 5%;
+    box-sizing: border-box;
+}
+
+.footer-about {
+    margin-bottom: 30px;
+}
+
+.footer-logo {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: #e67e22;
+}
+
+.footer-about p {
+    margin-bottom: 20px;
+    color: #cccccc;
+}
+
+.footer-section h3 {
+    font-size: 18px;
+    margin-bottom: 20px;
+    color: #e67e22;
+    position: relative;
+}
+
+.footer-section h3::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -8px;
+    width: 50px;
+    height: 2px;
+    background-color: #e67e22;
+}
+
+.footer-links ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-links li {
+    margin-bottom: 12px;
+}
+
+.footer-links a {
+    color: #cccccc;
+    text-decoration: none;
+    transition: color 0.3s ease;
+    display: block;
+}
+
+.footer-links a:hover {
+    color: #e67e22;
+}
+
+.footer-contact p {
+    margin-bottom: 15px;
+    display: flex;
+    align-items: flex-start;
+    color: #cccccc;
+}
+
+.footer-contact i {
+    margin-right: 10px;
+    color: #e67e22;
+    min-width: 20px;
+    text-align: center;
+}
+
+.footer-bottom {
+    background-color: #111111;
+    padding: 20px 5%;
+    text-align: center;
+    margin-top: 50px;
+    color: #999999;
+    font-size: 14px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.social-links {
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.social-links a {
+    color: #ffffff;
+    background-color: #333333;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.social-links a:hover {
+    background-color: #e67e22;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .footer-container {
+        grid-template-columns: 1fr;
+        gap: 30px;
+        padding: 0 8%;
+    }
+
+    .footer-section {
+        margin-bottom: 25px;
+    }
+
+    .site-footer {
+        padding: 40px 0 0;
+    }
+
+    .footer-bottom {
+        padding: 20px 8%;
+    }
+}
+
+
+
